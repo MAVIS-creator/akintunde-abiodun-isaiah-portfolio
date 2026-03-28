@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Akintunde Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: { 500: "#1f6f8b", 700: "#14495d", 900: "#0d2f3d" },
+              accent: { 500: "#d97706" },
+            },
+            fontFamily: {
+              display: ["Oswald", "sans-serif"],
+              body: ["Source Sans 3", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="bg-slate-50 font-body text-slate-800">
+    <header class="border-b border-slate-200 bg-white">
+      <div
+        class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6"
+      >
+        <h1 class="font-display text-3xl text-brand-900">Admin Dashboard</h1>
+        <div class="flex items-center gap-4">
+          <a href="../index.html" class="text-sm font-semibold text-brand-700"
+            >View Site</a
+          >
+          <button
+            id="logout-btn"
+            class="rounded border border-slate-300 px-3 py-2 text-sm font-semibold hover:border-brand-700 hover:text-brand-700"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto grid max-w-7xl gap-6 px-4 py-8 md:grid-cols-2 md:px-6">
+      <section
+        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft"
+      >
+        <h2 class="font-display text-2xl text-brand-900">Add Project</h2>
+        <form id="project-form" class="mt-4 space-y-3">
+          <input
+            id="project-title"
+            required
+            placeholder="Project title"
+            class="w-full rounded border border-slate-300 px-3 py-2"
+          />
+          <textarea
+            id="project-summary"
+            required
+            placeholder="Project summary"
+            class="w-full rounded border border-slate-300 px-3 py-2"
+          ></textarea>
+          <div class="grid gap-3 md:grid-cols-2">
+            <select
+              id="project-category"
+              class="rounded border border-slate-300 px-3 py-2"
+            >
+              <option value="building">Building</option>
+              <option value="interior">Interior</option>
+              <option value="exterior">Exterior</option>
+              <option value="electrical">Electrical</option>
+              <option value="mechanical">Mechanical</option>
+            </select>
+            <input
+              id="project-location"
+              placeholder="Location"
+              class="rounded border border-slate-300 px-3 py-2"
+            />
+          </div>
+          <div class="grid gap-3 md:grid-cols-2">
+            <input
+              id="project-date"
+              type="date"
+              class="rounded border border-slate-300 px-3 py-2"
+            />
+            <input
+              id="project-youtube"
+              type="url"
+              placeholder="YouTube link (optional)"
+              class="rounded border border-slate-300 px-3 py-2"
+            />
+          </div>
+          <div>
+            <label class="mb-1 block text-sm font-semibold"
+              >Hero image (stored in Supabase)</label
+            >
+            <input
+              id="project-image"
+              type="file"
+              accept="image/*"
+              class="w-full rounded border border-slate-300 px-3 py-2"
+            />
+          </div>
+          <label class="flex items-center gap-2 text-sm font-semibold">
+            <input id="project-featured" type="checkbox" />
+            Mark as featured
+          </label>
+          <button
+            class="rounded bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-900"
+          >
+            Save Project
+          </button>
+        </form>
+      </section>
+
+      <section
+        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft"
+      >
+        <h2 class="font-display text-2xl text-brand-900">
+          Add Reference Letter
+        </h2>
+        <form id="reference-form" class="mt-4 space-y-3">
+          <input
+            id="ref-name"
+            required
+            placeholder="Referee full name"
+            class="w-full rounded border border-slate-300 px-3 py-2"
+          />
+          <input
+            id="ref-role"
+            required
+            placeholder="Referee role"
+            class="w-full rounded border border-slate-300 px-3 py-2"
+          />
+          <input
+            id="ref-company"
+            placeholder="Company name"
+            class="w-full rounded border border-slate-300 px-3 py-2"
+          />
+          <textarea
+            id="ref-summary"
+            placeholder="Summary"
+            class="w-full rounded border border-slate-300 px-3 py-2"
+          ></textarea>
+          <div class="grid gap-3 md:grid-cols-2">
+            <input
+              id="ref-date"
+              type="date"
+              class="rounded border border-slate-300 px-3 py-2"
+            />
+            <input
+              id="ref-doc"
+              type="file"
+              accept="application/pdf,image/*"
+              class="rounded border border-slate-300 px-3 py-2"
+            />
+          </div>
+          <label class="flex items-center gap-2 text-sm font-semibold">
+            <input id="ref-verified" type="checkbox" checked />
+            Verified reference
+          </label>
+          <label class="flex items-center gap-2 text-sm font-semibold">
+            <input id="ref-public" type="checkbox" checked />
+            Visible on website
+          </label>
+          <button
+            class="rounded bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-900"
+          >
+            Save Reference
+          </button>
+        </form>
+      </section>
+
+      <section
+        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft md:col-span-2"
+      >
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 class="font-display text-2xl text-brand-900">
+            Published Content
+          </h2>
+          <p id="dashboard-status" class="text-sm text-slate-600"></p>
+        </div>
+
+        <div class="mt-6 grid gap-6 lg:grid-cols-2">
+          <div>
+            <h3
+              class="mb-3 text-sm font-semibold uppercase tracking-wide text-brand-700"
+            >
+              Projects
+            </h3>
+            <div id="project-list" class="space-y-3"></div>
+          </div>
+          <div>
+            <h3
+              class="mb-3 text-sm font-semibold uppercase tracking-wide text-brand-700"
+            >
+              Reference Letters
+            </h3>
+            <div id="reference-list" class="space-y-3"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="../assets/js/admin-dashboard.js"></script>
+  </body>
+</html>

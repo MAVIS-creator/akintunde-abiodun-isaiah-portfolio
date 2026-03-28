@@ -1,0 +1,132 @@
+﻿:root {
+  --brand-900: #102a38;
+  --brand-700: #153f51;
+  --brand-500: #1f5f78;
+  --accent-500: #c57c12;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.hero-pattern {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(31, 95, 120, 0.12) 0, rgba(31, 95, 120, 0) 38%),
+    radial-gradient(circle at 82% 22%, rgba(197, 124, 18, 0.12) 0, rgba(197, 124, 18, 0) 35%),
+    linear-gradient(120deg, #f8fafc 0%, #edf3f7 44%, #f9fbfd 100%);
+}
+
+.nav-link {
+  color: #334155;
+  line-height: 1.25rem;
+  transition: color 0.22s ease, transform 0.22s ease;
+}
+
+.nav-link:hover {
+  color: var(--brand-700);
+  transform: translateY(-1px);
+}
+
+.nav-brand {
+  min-height: 2.5rem;
+}
+
+.btn-primary {
+  border-radius: 0.5rem;
+  background: var(--brand-500);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--brand-700);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  border-radius: 0.5rem;
+  border: 1px solid var(--brand-500);
+  color: var(--brand-700);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: #f4f9fc;
+  transform: translateY(-1px);
+}
+
+.filter-btn {
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #334155;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--brand-700);
+  color: var(--brand-700);
+}
+
+.active-filter {
+  border-color: var(--brand-700);
+  color: white;
+  background: var(--brand-700);
+}
+
+.project-thumb {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  object-fit: cover;
+}
+
+.card-enter {
+  animation: card-enter 420ms ease;
+}
+
+.card-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(16, 42, 56, 0.14);
+}
+
+.fade-up {
+  animation: fade-up 550ms ease;
+}
+
+.site-footer {
+  margin-top: 2rem;
+}
+
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .nav-link {
+    display: inline-block;
+    width: fit-content;
+  }
+}
