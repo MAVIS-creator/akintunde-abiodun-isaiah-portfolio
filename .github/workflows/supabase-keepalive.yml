@@ -17,4 +17,4 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
             -H "Content-Type: application/json" \
             -H "Prefer: return=representation" \
-            -d '{"touched_at":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)'""}'
+            -d '{"touched_at":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"}'
