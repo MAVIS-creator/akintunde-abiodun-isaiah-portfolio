@@ -50,6 +50,10 @@ async function fetchReferences() {
     return fallbackReferences;
   }
 
+  if (!data || data.length === 0) {
+    return fallbackReferences;
+  }
+
   return data;
 }
 

@@ -76,6 +76,10 @@ async function fetchProjects() {
     return fallbackProjects;
   }
 
+  if (!data || data.length === 0) {
+    return fallbackProjects;
+  }
+
   return data;
 }
 

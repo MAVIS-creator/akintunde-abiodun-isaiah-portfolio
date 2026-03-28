@@ -54,6 +54,10 @@ async function fetchFeaturedProjects() {
     return fallbackProjects.filter((item) => item.featured).slice(0, 3);
   }
 
+  if (!data || data.length === 0) {
+    return fallbackProjects.filter((item) => item.featured).slice(0, 3);
+  }
+
   return data;
 }
 
