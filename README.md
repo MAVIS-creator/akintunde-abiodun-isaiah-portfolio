@@ -3,6 +3,7 @@
 Static website (HTML + Tailwind + JavaScript) with Supabase-powered admin dashboard.
 
 ## Stack
+
 - HTML/CSS/JS (no custom backend)
 - Tailwind via CDN
 - Supabase Auth, Postgres, and Storage
@@ -10,6 +11,7 @@ Static website (HTML + Tailwind + JavaScript) with Supabase-powered admin dashbo
 - Vercel static hosting
 
 ## Pages
+
 - `index.html`: Homepage, profile, featured projects
 - `projects.html`: Full project gallery with category filters + YouTube embeds
 - `references.html`: Reference letters page (preview + download)
@@ -21,6 +23,7 @@ Static website (HTML + Tailwind + JavaScript) with Supabase-powered admin dashbo
 - `admin/dashboard.html`: Admin CRUD for projects and references
 
 ## 1) Supabase Setup
+
 1. Create a Supabase project.
 2. In SQL Editor, run `supabase/schema.sql`.
 3. In Authentication, create one admin user (email/password).
@@ -33,44 +36,53 @@ Static website (HTML + Tailwind + JavaScript) with Supabase-powered admin dashbo
    - `allowedAdminEmails` with your admin email
 
 ### Admin Signup / Login Flow
+
 - This template uses a single-admin allow-list model.
 - Add your admin email in `assets/js/config.js` under `allowedAdminEmails`.
 - Create that same email/password in Supabase Auth:
-   - Supabase Dashboard -> Authentication -> Users -> Add user
-   - Set email + password (confirm email if prompted)
+  - Supabase Dashboard -> Authentication -> Users -> Add user
+  - Set email + password (confirm email if prompted)
 - Then login at `/admin/` (now redirects to `/admin/login.html`).
 
 If you prefer self-signup from the website later, you can add a `signUp` form in admin UI, but for visa portfolio evidence this locked admin model is safer.
 
 Important:
+
 - Do not paste your PostgreSQL connection string in frontend files.
 - Do not expose service role key in frontend files.
 - PostgreSQL URI is for server tools/SQL clients only.
 
 ## 2) GitHub Secrets for Keep Alive
+
 Add these repository secrets:
+
 - `SUPABASE_URL` = `https://YOUR_PROJECT.supabase.co`
 - `SUPABASE_ANON_KEY` = your anon key
 
 Workflow file: `.github/workflows/supabase-keepalive.yml`
+
 - Runs every 6 days and updates `keep_alive` table.
 
 ## 3) Deploy to Vercel
+
 1. Push repository to GitHub.
 2. Import project in Vercel.
 3. Deploy as static site (no build command needed).
 4. Add custom domain if needed.
 
 ## 4) Media Strategy Used
+
 - Videos: YouTube links only (embedded in projects page)
 - Images/PDF letters: Supabase Storage bucket (`portfolio-media`)
 
 ## 5) Notes
+
 - `assets/js/config.js` holds public values. This is expected for anon key.
 - Write access is controlled by Supabase Auth + RLS.
 - If you want stronger admin controls later, add role checks using a profile table and policy filters.
 
 ## 6) Supabase CLI (npx)
+
 Use these commands in this repo:
 
 ```bash
@@ -81,5 +93,6 @@ npx supabase db push
 ```
 
 Notes:
+
 - `supabase link` requires CLI login or `SUPABASE_ACCESS_TOKEN`.
 - This repo already has migration file `supabase/migrations/20260328165913_new-migration.sql` populated from `supabase/schema.sql`.
