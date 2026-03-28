@@ -32,6 +32,16 @@ Static website (HTML + Tailwind + JavaScript) with Supabase-powered admin dashbo
    - `supabaseAnonKey` (anon key only)
    - `allowedAdminEmails` with your admin email
 
+### Admin Signup / Login Flow
+- This template uses a single-admin allow-list model.
+- Add your admin email in `assets/js/config.js` under `allowedAdminEmails`.
+- Create that same email/password in Supabase Auth:
+   - Supabase Dashboard -> Authentication -> Users -> Add user
+   - Set email + password (confirm email if prompted)
+- Then login at `/admin/` (now redirects to `/admin/login.html`).
+
+If you prefer self-signup from the website later, you can add a `signUp` form in admin UI, but for visa portfolio evidence this locked admin model is safer.
+
 Important:
 - Do not paste your PostgreSQL connection string in frontend files.
 - Do not expose service role key in frontend files.

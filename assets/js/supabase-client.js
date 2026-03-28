@@ -1,4 +1,4 @@
-import { appConfig } from "./config.js";
+﻿import { appConfig } from "./config.js";
 
 const SUPABASE_JS_CDN =
   "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
@@ -41,12 +41,12 @@ export function toYouTubeEmbedUrl(url) {
 
     if (host === "youtube.com" || host === "m.youtube.com") {
       const id = parsed.searchParams.get("v");
-      return id ? `https://www.youtube.com/embed/${id}` : "";
+      return id ? `https://www.youtube.com/embed/${id}?mute=1&rel=0` : "";
     }
 
     if (host === "youtu.be") {
       const id = parsed.pathname.replace("/", "");
-      return id ? `https://www.youtube.com/embed/${id}` : "";
+      return id ? `https://www.youtube.com/embed/${id}?mute=1&rel=0` : "";
     }
   } catch (error) {
     return "";
