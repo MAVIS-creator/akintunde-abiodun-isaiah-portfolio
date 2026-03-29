@@ -11,10 +11,11 @@ jobs:
     steps:
       - name: Keep Supabase active with an upsert
         run: |
+          TOUCHED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           curl -sS --fail-with-body "${{ secrets.SUPABASE_URL }}/rest/v1/keep_alive?id=eq.1" \
             -X PATCH \
             -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
             -H "Content-Type: application/json" \
             -H "Prefer: return=representation" \
-            -d '{"touched_at":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"}'
+            -d "{\"touched_at\":\"${TOUCHED_AT}\"}"
