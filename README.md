@@ -22,6 +22,12 @@ Static website (HTML + Tailwind + JavaScript) with Supabase-powered admin dashbo
 - `admin/login.html`: Admin login
 - `admin/dashboard.html`: Admin CRUD for projects and references
 
+### Bulk Project Media
+
+- Each project still has one `hero_image_url`.
+- You can now attach multiple extra images and multiple extra video links per project.
+- Extra media is stored in `public.project_media` with `project_id`, `media_type`, and `media_url`.
+
 ## 1) Supabase Setup
 
 1. Create a Supabase project.
@@ -34,6 +40,12 @@ Static website (HTML + Tailwind + JavaScript) with Supabase-powered admin dashbo
    - `supabaseUrl`
    - `supabaseAnonKey` (anon key only)
    - `allowedAdminEmails` with your admin email
+
+After running the SQL, the admin project form supports:
+
+- Single hero image upload
+- Bulk gallery image upload (multiple files)
+- Multiple video links (one URL per line)
 
 ### Admin Signup / Login Flow
 

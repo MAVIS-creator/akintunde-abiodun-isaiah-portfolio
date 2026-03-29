@@ -11,8 +11,58 @@ const filterButtons = document.querySelectorAll(".filter-btn");
 let projectCache = [];
 let currentFilter = "all";
 
+function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 function projectCard(project) {
   const videoUrl = toYouTubeEmbedUrl(project.youtube_url);
+  const mediaItems = project.media || [];
+  const imageGallery = mediaItems.filter((item) => item.media_type === "image");
+  const videoLinks = mediaItems.filter(
+    (item) => item.media_type === "video_link",
+  );
+
+  const galleryMarkup = imageGallery.length
+    ? `<div class="mt-4 grid grid-cols-2 gap-2 md:grid-cols-3">
+        ${imageGallery
+          .map(
+            (item) =>
+              `<img class="h-24 w-full rounded border border-slate-200 object-cover" src="${escapeHtml(item.media_url)}" alt="${escapeHtml(project.title)} gallery image" loading="lazy" />`,
+          )
+          .join("")}
+      </div>`
+    : "";
+
+  const extraVideosMarkup = videoLinks.length
+    ? `<div class="mt-4 space-y-2">
+        ${videoLinks
+          .map((item) => {
+            const embedded = toYouTubeEmbedUrl(item.media_url);
+            if (embedded) {
+              return `<div class="rounded border border-slate-200 bg-slate-100 p-2">
+                  <iframe
+                    class="h-48 w-full rounded"
+                    src="${escapeHtml(embedded)}"
+                    title="${escapeHtml(project.title)} extra video"
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                </div>`;
+            }
+
+            return `<a href="${escapeHtml(item.media_url)}" target="_blank" rel="noopener noreferrer" class="inline-block rounded border border-brand-500 px-3 py-2 text-xs font-semibold text-brand-700 hover:bg-slate-50">Open video link</a>`;
+          })
+          .join("")}
+      </div>`
+    : "";
 
   return `
     <article class="card-enter overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft">
@@ -40,6 +90,8 @@ function projectCard(project) {
               </div>`
             : ""
         }
+        ${galleryMarkup}
+        ${extraVideosMarkup}
       </div>
     </article>
   `;
@@ -80,7 +132,30 @@ async function fetchProjects() {
     return fallbackProjects;
   }
 
-  return data;
+  const projectIds = data.map((project) => project.id);
+  const { data: mediaRows, error: mediaError } = await supabase
+    .from("project_media")
+    .select("id,project_id,media_type,media_url,sort_order")
+    .in("project_id", projectIds)
+    .order("sort_order", { ascending: true });
+
+  if (mediaError) {
+    console.warn("Project media unavailable:", mediaError.message);
+    return data.map((project) => ({ ...project, media: [] }));
+  }
+
+  const mediaByProject = (mediaRows || []).reduce((acc, item) => {
+    if (!acc[item.project_id]) {
+      acc[item.project_id] = [];
+    }
+    acc[item.project_id].push(item);
+    return acc;
+  }, {});
+
+  return data.map((project) => ({
+    ...project,
+    media: mediaByProject[project.id] || [],
+  }));
 }
 
 filterButtons.forEach((btn) => {

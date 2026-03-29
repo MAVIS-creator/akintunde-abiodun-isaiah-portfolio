@@ -54,6 +54,14 @@ async function uploadToStorage(file, folder) {
   return publicUrl;
 }
 
+async function uploadManyToStorage(files, folder) {
+  if (!files || files.length === 0) return [];
+  const uploads = Array.from(files).map((file) =>
+    uploadToStorage(file, folder),
+  );
+  return Promise.all(uploads);
+}
+
 function projectListItem(project) {
   return `
     <article class="rounded border border-slate-200 p-3 text-sm">
@@ -75,35 +83,44 @@ function referenceListItem(ref) {
 }
 
 async function loadDashboardLists() {
-  const { data: projects, error: projectsError } = await supabase
-    .from("projects")
-    .select("id,title,category,location,completed_at")
-    .order("created_at", { ascending: false })
-    .limit(20);
+  let projects = [];
+  let references = [];
 
-  if (projectsError) {
-    setStatus(projectsError.message, true);
-    return;
+  if (projectList) {
+    const { data, error: projectsError } = await supabase
+      .from("projects")
+      .select("id,title,category,location,completed_at")
+      .order("created_at", { ascending: false })
+      .limit(20);
+
+    if (projectsError) {
+      setStatus(projectsError.message, true);
+      return;
+    }
+
+    projects = data || [];
+    projectList.innerHTML = projects.length
+      ? projects.map((item) => projectListItem(item)).join("")
+      : '<p class="text-sm text-slate-500">No projects yet.</p>';
   }
 
-  const { data: references, error: refsError } = await supabase
-    .from("references")
-    .select("id,referee_name,referee_role,issued_date")
-    .order("created_at", { ascending: false })
-    .limit(20);
+  if (referenceList) {
+    const { data, error: refsError } = await supabase
+      .from("references")
+      .select("id,referee_name,referee_role,issued_date")
+      .order("created_at", { ascending: false })
+      .limit(20);
 
-  if (refsError) {
-    setStatus(refsError.message, true);
-    return;
+    if (refsError) {
+      setStatus(refsError.message, true);
+      return;
+    }
+
+    references = data || [];
+    referenceList.innerHTML = references.length
+      ? references.map((item) => referenceListItem(item)).join("")
+      : '<p class="text-sm text-slate-500">No reference letters yet.</p>';
   }
-
-  projectList.innerHTML = projects.length
-    ? projects.map((item) => projectListItem(item)).join("")
-    : '<p class="text-sm text-slate-500">No projects yet.</p>';
-
-  referenceList.innerHTML = references.length
-    ? references.map((item) => referenceListItem(item)).join("")
-    : '<p class="text-sm text-slate-500">No reference letters yet.</p>';
 
   setStatus("Dashboard synced.");
 }
@@ -114,7 +131,19 @@ projectForm?.addEventListener("submit", async (event) => {
   try {
     setStatus("Saving project...");
     const imageFile = document.getElementById("project-image").files[0];
+    const galleryFiles = document.getElementById(
+      "project-gallery-images",
+    ).files;
+    const extraVideosRaw = document
+      .getElementById("project-extra-videos")
+      .value.split("\n")
+      .map((item) => item.trim())
+      .filter(Boolean);
     const heroImageUrl = await uploadToStorage(imageFile, "projects");
+    const galleryUrls = await uploadManyToStorage(
+      galleryFiles,
+      "projects/gallery",
+    );
 
     const payload = {
       title: document.getElementById("project-title").value.trim(),
@@ -127,8 +156,34 @@ projectForm?.addEventListener("submit", async (event) => {
       featured: document.getElementById("project-featured").checked,
     };
 
-    const { error } = await supabase.from("projects").insert([payload]);
+    const { data: savedProject, error } = await supabase
+      .from("projects")
+      .insert([payload])
+      .select("id")
+      .single();
     if (error) throw error;
+
+    const mediaPayload = [
+      ...galleryUrls.map((url, index) => ({
+        project_id: savedProject.id,
+        media_type: "image",
+        media_url: url,
+        sort_order: index,
+      })),
+      ...extraVideosRaw.map((url, index) => ({
+        project_id: savedProject.id,
+        media_type: "video_link",
+        media_url: url,
+        sort_order: galleryUrls.length + index,
+      })),
+    ];
+
+    if (mediaPayload.length) {
+      const { error: mediaError } = await supabase
+        .from("project_media")
+        .insert(mediaPayload);
+      if (mediaError) throw mediaError;
+    }
 
     projectForm.reset();
     setStatus("Project saved successfully.");

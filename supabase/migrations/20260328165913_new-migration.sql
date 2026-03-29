@@ -30,6 +30,16 @@ create table if not exists public.projects (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.project_media (
+  id uuid primary key default gen_random_uuid(),
+  project_id uuid not null references public.projects(id) on delete cascade,
+  media_type text not null check (media_type in ('image', 'video_link')),
+  media_url text not null,
+  caption text,
+  sort_order int not null default 0,
+  created_at timestamptz not null default now()
+);
+
 create table if not exists public.references (
   id uuid primary key default gen_random_uuid(),
   referee_name text not null,
@@ -55,10 +65,13 @@ on conflict (id) do update set touched_at = excluded.touched_at;
 
 create index if not exists idx_projects_completed_at on public.projects (completed_at desc);
 create index if not exists idx_projects_featured on public.projects (featured);
+create index if not exists idx_project_media_project_id on public.project_media (project_id);
+create index if not exists idx_project_media_sort_order on public.project_media (project_id, sort_order asc);
 create index if not exists idx_references_issued_date on public.references (issued_date desc);
 
 alter table public.profiles enable row level security;
 alter table public.projects enable row level security;
+alter table public.project_media enable row level security;
 alter table public.references enable row level security;
 alter table public.keep_alive enable row level security;
 
@@ -73,6 +86,13 @@ using (true);
 drop policy if exists "public read projects" on public.projects;
 create policy "public read projects"
 on public.projects
+for select
+to anon, authenticated
+using (true);
+
+drop policy if exists "public read project media" on public.project_media;
+create policy "public read project media"
+on public.project_media
 for select
 to anon, authenticated
 using (true);
@@ -97,6 +117,14 @@ with check (true);
 drop policy if exists "admin manage projects" on public.projects;
 create policy "admin manage projects"
 on public.projects
+for all
+to authenticated
+using (true)
+with check (true);
+
+drop policy if exists "admin manage project media" on public.project_media;
+create policy "admin manage project media"
+on public.project_media
 for all
 to authenticated
 using (true)

@@ -22,6 +22,28 @@
             fontFamily: {
               display: ["Oswald", "sans-serif"],
               body: ["Source Sans 3", "sans-serif"],
+          <div>
+            <label class="mb-1 block text-sm font-semibold"
+              >Gallery images (bulk upload, optional)</label
+            >
+            <input
+              id="project-gallery-images"
+              type="file"
+              accept="image/*"
+              multiple
+              class="w-full rounded border border-slate-300 px-3 py-2"
+            />
+          </div>
+          <div>
+            <label class="mb-1 block text-sm font-semibold"
+              >Extra video links (optional, one URL per line)</label
+            >
+            <textarea
+              id="project-extra-videos"
+              placeholder="https://www.youtube.com/watch?v=..."
+              class="w-full rounded border border-slate-300 px-3 py-2"
+            ></textarea>
+          </div>
             },
           },
         },
@@ -29,19 +51,30 @@
     </script>
     <link rel="stylesheet" href="../assets/css/styles.css" />
   </head>
-  <body class="bg-slate-50 font-body text-slate-800">
-    <header class="border-b border-slate-200 bg-white">
+  <body class="hero-pattern min-h-screen font-body text-slate-800">
+    <header class="border-b border-slate-200/80 bg-white/90 backdrop-blur">
       <div
-        class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6"
+        class="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 md:px-6"
       >
-        <h1 class="font-display text-3xl text-brand-900">Admin Dashboard</h1>
-        <div class="flex items-center gap-4">
-          <a href="../index.html" class="text-sm font-semibold text-brand-700"
+        <div>
+          <p
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700"
+          >
+            Admin
+          </p>
+          <h1 class="font-display text-3xl text-brand-900 md:text-4xl">
+            Dashboard
+          </h1>
+        </div>
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a
+            href="../index.html"
+            class="rounded border border-slate-300 px-3 py-2 text-sm font-semibold text-brand-700 hover:border-brand-700"
             >View Site</a
           >
           <button
             id="logout-btn"
-            class="rounded border border-slate-300 px-3 py-2 text-sm font-semibold hover:border-brand-700 hover:text-brand-700"
+            class="rounded bg-brand-700 px-3 py-2 text-sm font-semibold text-white hover:bg-brand-900"
           >
             Logout
           </button>
@@ -49,146 +82,68 @@
       </div>
     </header>
 
-    <main class="mx-auto grid max-w-7xl gap-6 px-4 py-8 md:grid-cols-2 md:px-6">
+    <main class="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 md:px-6 md:py-8">
       <section
-        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft"
-      >
-        <h2 class="font-display text-2xl text-brand-900">Add Project</h2>
-        <form id="project-form" class="mt-4 space-y-3">
-          <input
-            id="project-title"
-            required
-            placeholder="Project title"
-            class="w-full rounded border border-slate-300 px-3 py-2"
-          />
-          <textarea
-            id="project-summary"
-            required
-            placeholder="Project summary"
-            class="w-full rounded border border-slate-300 px-3 py-2"
-          ></textarea>
-          <div class="grid gap-3 md:grid-cols-2">
-            <select
-              id="project-category"
-              class="rounded border border-slate-300 px-3 py-2"
-            >
-              <option value="building">Building</option>
-              <option value="interior">Interior</option>
-              <option value="exterior">Exterior</option>
-              <option value="electrical">Electrical</option>
-              <option value="mechanical">Mechanical</option>
-            </select>
-            <input
-              id="project-location"
-              placeholder="Location"
-              class="rounded border border-slate-300 px-3 py-2"
-            />
-          </div>
-          <div class="grid gap-3 md:grid-cols-2">
-            <input
-              id="project-date"
-              type="date"
-              class="rounded border border-slate-300 px-3 py-2"
-            />
-            <input
-              id="project-youtube"
-              type="url"
-              placeholder="YouTube link (optional)"
-              class="rounded border border-slate-300 px-3 py-2"
-            />
-          </div>
-          <div>
-            <label class="mb-1 block text-sm font-semibold"
-              >Hero image (stored in Supabase)</label
-            >
-            <input
-              id="project-image"
-              type="file"
-              accept="image/*"
-              class="w-full rounded border border-slate-300 px-3 py-2"
-            />
-          </div>
-          <label class="flex items-center gap-2 text-sm font-semibold">
-            <input id="project-featured" type="checkbox" />
-            Mark as featured
-          </label>
-          <button
-            class="rounded bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-900"
-          >
-            Save Project
-          </button>
-        </form>
-      </section>
-
-      <section
-        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft"
-      >
-        <h2 class="font-display text-2xl text-brand-900">
-          Add Reference Letter
-        </h2>
-        <form id="reference-form" class="mt-4 space-y-3">
-          <input
-            id="ref-name"
-            required
-            placeholder="Referee full name"
-            class="w-full rounded border border-slate-300 px-3 py-2"
-          />
-          <input
-            id="ref-role"
-            required
-            placeholder="Referee role"
-            class="w-full rounded border border-slate-300 px-3 py-2"
-          />
-          <input
-            id="ref-company"
-            placeholder="Company name"
-            class="w-full rounded border border-slate-300 px-3 py-2"
-          />
-          <textarea
-            id="ref-summary"
-            placeholder="Summary"
-            class="w-full rounded border border-slate-300 px-3 py-2"
-          ></textarea>
-          <div class="grid gap-3 md:grid-cols-2">
-            <input
-              id="ref-date"
-              type="date"
-              class="rounded border border-slate-300 px-3 py-2"
-            />
-            <input
-              id="ref-doc"
-              type="file"
-              accept="application/pdf,image/*"
-              class="rounded border border-slate-300 px-3 py-2"
-            />
-          </div>
-          <label class="flex items-center gap-2 text-sm font-semibold">
-            <input id="ref-verified" type="checkbox" checked />
-            Verified reference
-          </label>
-          <label class="flex items-center gap-2 text-sm font-semibold">
-            <input id="ref-public" type="checkbox" checked />
-            Visible on website
-          </label>
-          <button
-            class="rounded bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-900"
-          >
-            Save Reference
-          </button>
-        </form>
-      </section>
-
-      <section
-        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft md:col-span-2"
+        class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-xl md:p-8"
       >
         <div class="flex flex-wrap items-center justify-between gap-3">
-          <h2 class="font-display text-2xl text-brand-900">
-            Published Content
-          </h2>
-          <p id="dashboard-status" class="text-sm text-slate-600"></p>
+          <div>
+            <h2 class="font-display text-2xl text-brand-900 md:text-3xl">
+              Choose a workspace
+            </h2>
+            <p class="mt-1 text-sm text-slate-600">
+              Projects and references are now managed in separate standalone
+              pages.
+            </p>
+          </div>
+          <p
+            id="dashboard-status"
+            class="text-sm font-semibold text-emerald-700"
+          ></p>
         </div>
 
-        <div class="mt-6 grid gap-6 lg:grid-cols-2">
+        <div class="mt-6 grid gap-4 sm:grid-cols-2">
+          <a
+            href="./projects.html"
+            class="group rounded-2xl border border-slate-200 bg-gradient-to-br from-brand-900 to-brand-700 p-5 text-white transition hover:-translate-y-1 hover:shadow-xl"
+          >
+            <p
+              class="text-xs font-semibold uppercase tracking-[0.2em] text-accent-500"
+            >
+              Standalone View
+            </p>
+            <h3 class="mt-2 font-display text-3xl leading-none">Projects</h3>
+            <p class="mt-3 text-sm text-slate-100">
+              Create, review, and delete project entries with full-width forms
+              and mobile-friendly controls.
+            </p>
+          </a>
+
+          <a
+            href="./references.html"
+            class="group rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-900 to-slate-700 p-5 text-white transition hover:-translate-y-1 hover:shadow-xl"
+          >
+            <p
+              class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-400"
+            >
+              Standalone View
+            </p>
+            <h3 class="mt-2 font-display text-3xl leading-none">References</h3>
+            <p class="mt-3 text-sm text-slate-100">
+              Upload reference files, toggle visibility, and manage published
+              letters in one dedicated page.
+            </p>
+          </a>
+        </div>
+      </section>
+
+      <section
+        class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-xl md:p-8"
+      >
+        <h2 class="font-display text-2xl text-brand-900">
+          Recent Published Content
+        </h2>
+        <div class="mt-5 grid gap-6 lg:grid-cols-2">
           <div>
             <h3
               class="mb-3 text-sm font-semibold uppercase tracking-wide text-brand-700"
