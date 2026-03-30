@@ -1,4 +1,4 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -128,6 +128,22 @@ async function uploadFile(fileName) {
 
 async function seed() {
   console.log("Starting seed process...");
+
+  console.log("Attempting to authenticate...");
+  const authEmail = 'akintunde.dolapo1@gmail.com';
+  const authPassword = 'Callmelater';
+
+  const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+    email: authEmail,
+    password: authPassword
+  });
+
+  if (signInError) {
+    console.error("SignIn error. Cannot bypass RLS:", signInError.message);
+    return; // Exit if we can't authenticate
+  }
+
+  console.log("Authenticated successfully as", signInData.user?.email);
 
   for (const project of projectsData) {
     console.log(`Processing project: ${project.title}`);
