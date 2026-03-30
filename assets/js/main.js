@@ -1,18 +1,8 @@
 ﻿import { fallbackProjects } from "./config.js";
 import { formatDate, getSupabaseClient } from "./supabase-client.js";
 
-const menuToggle = document.getElementById("menu-toggle");
-const mobileNav = document.getElementById("mobile-nav");
 const featuredContainer = document.getElementById("featured-projects");
 const lastUpdated = document.getElementById("last-updated");
-
-if (menuToggle && mobileNav) {
-  menuToggle.addEventListener("click", () => {
-    const isHidden = mobileNav.classList.contains("hidden");
-    mobileNav.classList.toggle("hidden");
-    menuToggle.setAttribute("aria-expanded", String(isHidden));
-  });
-}
 
 if (lastUpdated) {
   lastUpdated.textContent = new Intl.DateTimeFormat("en-NG", {
