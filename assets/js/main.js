@@ -34,7 +34,9 @@ async function fetchFeaturedProjects() {
 
   const { data, error } = await supabase
     .from("projects")
-    .select("id,title,summary,category,location,completed_at,featured,hero_image_url")
+    .select(
+      "id,title,summary,category,location,completed_at,featured,hero_image_url",
+    )
     .eq("featured", true)
     .order("completed_at", { ascending: false })
     .limit(3);
@@ -54,7 +56,9 @@ async function fetchFeaturedProjects() {
 async function initFeatured() {
   if (!featuredContainer) return;
   const items = await fetchFeaturedProjects();
-  featuredContainer.innerHTML = items.map((item) => featuredCard(item)).join("");
+  featuredContainer.innerHTML = items
+    .map((item) => featuredCard(item))
+    .join("");
 }
 
 initFeatured();
