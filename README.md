@@ -16,11 +16,13 @@ Static website (HTML + Tailwind + JavaScript) with Supabase-powered admin dashbo
 - `projects.html`: Full project gallery with category filters + YouTube embeds
 - `references.html`: Reference letters page (preview + download)
 - `services.html`: Services offered
-- `case-studies.html`: Visa-friendly project case study evidence
+- `case-studies.html`: Project case studies and delivery outcomes
 - `cv.html`: CV download page
 - `contact.html`: Contact channels and WhatsApp
 - `admin/login.html`: Admin login
-- `admin/dashboard.html`: Admin CRUD for projects and references
+- `admin/dashboard.html`: Admin home with navigation to standalone workspaces
+- `admin/projects.html`: Project CRUD with hero image + bulk gallery uploads + many video links
+- `admin/references.html`: Reference letter CRUD
 
 ### Bulk Project Media
 
@@ -32,6 +34,7 @@ Static website (HTML + Tailwind + JavaScript) with Supabase-powered admin dashbo
 
 1. Create a Supabase project.
 2. In SQL Editor, run `supabase/schema.sql`.
+   - This includes `public.project_media` for bulk images/video links per project.
 3. In Authentication, create one admin user (email/password).
 4. In API settings, copy:
    - Project URL (example: `https://vlhvqdgokvetrjbjomyh.supabase.co`)
@@ -56,7 +59,7 @@ After running the SQL, the admin project form supports:
   - Set email + password (confirm email if prompted)
 - Then login at `/admin/` (now redirects to `/admin/login.html`).
 
-If you prefer self-signup from the website later, you can add a `signUp` form in admin UI, but for visa portfolio evidence this locked admin model is safer.
+If you prefer self-signup from the website later, you can add a `signUp` form in admin UI, but this locked admin model is safer for controlled publishing.
 
 Important:
 

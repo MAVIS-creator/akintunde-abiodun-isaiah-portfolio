@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin References | Akintunde Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: { 500: "#1f6f8b", 700: "#14495d", 900: "#0d2f3d" },
+              accent: { 500: "#d97706" },
+            },
+            fontFamily: {
+              display: ["Oswald", "sans-serif"],
+              body: ["Source Sans 3", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="hero-pattern min-h-screen font-body text-slate-800">
+    <header class="border-b border-slate-200/80 bg-white/90 backdrop-blur">
+      <div
+        class="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 md:px-6"
+      >
+        <div>
+          <p
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700"
+          >
+            Admin Workspace
+          </p>
+          <h1 class="font-display text-3xl text-brand-900">References</h1>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <a
+            href="./dashboard.html"
+            class="rounded border border-slate-300 px-3 py-2 text-sm font-semibold text-brand-700 hover:border-brand-700"
+            >Dashboard</a
+          >
+          <a
+            href="./projects.html"
+            class="rounded border border-slate-300 px-3 py-2 text-sm font-semibold text-brand-700 hover:border-brand-700"
+            >Projects</a
+          >
+          <button
+            id="logout-btn"
+            class="rounded bg-brand-700 px-3 py-2 text-sm font-semibold text-white hover:bg-brand-900"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 md:px-6 md:py-8">
+      <section
+        class="rounded-3xl border border-slate-200 glass-panel p-5 shadow-xl md:p-8"
+      >
+        <div class="mb-4 flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 class="font-display text-2xl text-brand-900 md:text-3xl">
+              Add Reference Letter
+            </h2>
+            <p class="mt-1 text-sm text-slate-600">
+              Upload reference files and control what is visible on your public site.
+            </p>
+          </div>
+          <p
+            id="dashboard-status"
+            class="text-sm font-semibold text-emerald-700"
+          ></p>
+        </div>
+
+        <form id="reference-form" class="grid gap-3 md:grid-cols-2">
+          <input
+            id="ref-name"
+            required
+            placeholder="Referee full name"
+            class="w-full rounded border border-slate-300 px-3 py-2"
+          />
+          <input
+            id="ref-role"
+            required
+            placeholder="Referee role"
+            class="w-full rounded border border-slate-300 px-3 py-2"
+          />
+
+          <input
+            id="ref-company"
+            placeholder="Company name"
+            class="md:col-span-2 w-full rounded border border-slate-300 px-3 py-2"
+          />
+          <textarea
+            id="ref-summary"
+            placeholder="Summary"
+            class="md:col-span-2 w-full rounded border border-slate-300 px-3 py-2"
+          ></textarea>
+
+          <input
+            id="ref-date"
+            type="date"
+            class="rounded border border-slate-300 px-3 py-2"
+          />
+          <input
+            id="ref-doc"
+            type="file"
+            accept="application/pdf,image/*"
+            class="rounded border border-slate-300 px-3 py-2"
+          />
+
+          <label
+            class="md:col-span-2 flex items-center gap-2 text-sm font-semibold"
+          >
+            <input id="ref-verified" type="checkbox" checked />
+            Verified reference
+          </label>
+          <label
+            class="md:col-span-2 flex items-center gap-2 text-sm font-semibold"
+          >
+            <input id="ref-public" type="checkbox" checked />
+            Visible on website
+          </label>
+
+          <div class="md:col-span-2">
+            <button
+              class="rounded bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-900"
+            >
+              Save Reference
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section
+        class="rounded-3xl border border-slate-200 glass-panel p-5 shadow-xl md:p-8"
+      >
+        <h2 class="font-display text-2xl text-brand-900">
+          Published References
+        </h2>
+        <div id="reference-list" class="mt-4 space-y-3"></div>
+      </section>
+    </main>
+
+    <script type="module" src="../assets/js/admin-dashboard.js"></script>
+  </body>
+</html>

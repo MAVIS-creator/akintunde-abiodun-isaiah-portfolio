@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Projects | Akintunde Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: { 500: "#1f6f8b", 700: "#14495d", 900: "#0d2f3d" },
+              accent: { 500: "#d97706" },
+            },
+            fontFamily: {
+              display: ["Oswald", "sans-serif"],
+              body: ["Source Sans 3", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="hero-pattern min-h-screen font-body text-slate-800">
+    <header class="border-b border-slate-200/80 bg-white/90 backdrop-blur">
+      <div
+        class="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 md:px-6"
+      >
+        <div>
+          <p
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700"
+          >
+            Admin Workspace
+          </p>
+          <h1 class="font-display text-3xl text-brand-900">Projects</h1>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <a
+            href="./dashboard.html"
+            class="rounded border border-slate-300 px-3 py-2 text-sm font-semibold text-brand-700 hover:border-brand-700"
+            >Dashboard</a
+          >
+          <a
+            href="./references.html"
+            class="rounded border border-slate-300 px-3 py-2 text-sm font-semibold text-brand-700 hover:border-brand-700"
+            >References</a
+          >
+          <button
+            id="logout-btn"
+            class="rounded bg-brand-700 px-3 py-2 text-sm font-semibold text-white hover:bg-brand-900"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 md:px-6 md:py-8">
+      <section
+        class="rounded-3xl border border-slate-200 glass-panel p-5 shadow-xl md:p-8"
+      >
+        <div class="mb-4 flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 class="font-display text-2xl text-brand-900 md:text-3xl">
+              Add Project
+            </h2>
+            <p class="mt-1 text-sm text-slate-600">
+              Use hero image for cover, then add bulk gallery images and many
+              video links for the same project.
+            </p>
+          </div>
+          <p
+            id="dashboard-status"
+            class="text-sm font-semibold text-emerald-700"
+          ></p>
+        </div>
+
+        <form id="project-form" class="grid gap-3 md:grid-cols-2">
+          <input
+            id="project-title"
+            required
+            placeholder="Project title"
+            class="w-full rounded border border-slate-300 px-3 py-2"
+          />
+          <input
+            id="project-location"
+            placeholder="Location"
+            class="w-full rounded border border-slate-300 px-3 py-2"
+          />
+
+          <textarea
+            id="project-summary"
+            required
+            placeholder="Project summary"
+            class="md:col-span-2 w-full rounded border border-slate-300 px-3 py-2"
+          ></textarea>
+
+          <select
+            id="project-category"
+            class="rounded border border-slate-300 px-3 py-2"
+          >
+            <option value="building">Building</option>
+            <option value="interior">Interior</option>
+            <option value="exterior">Exterior</option>
+            <option value="electrical">Electrical</option>
+            <option value="mechanical">Mechanical</option>
+          </select>
+          <input
+            id="project-date"
+            type="date"
+            class="rounded border border-slate-300 px-3 py-2"
+          />
+
+          <input
+            id="project-youtube"
+            type="url"
+            placeholder="Primary YouTube link (optional)"
+            class="md:col-span-2 rounded border border-slate-300 px-3 py-2"
+          />
+
+          <div class="md:col-span-2">
+            <label class="mb-1 block text-sm font-semibold"
+              >Hero image (single cover image)</label
+            >
+            <input
+              id="project-image"
+              type="file"
+              accept="image/*"
+              class="w-full rounded border border-slate-300 px-3 py-2"
+            />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="mb-1 block text-sm font-semibold"
+              >Gallery images (bulk upload)</label
+            >
+            <input
+              id="project-gallery-images"
+              type="file"
+              accept="image/*"
+              multiple
+              class="w-full rounded border border-slate-300 px-3 py-2"
+            />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="mb-1 block text-sm font-semibold"
+              >Extra video links (one URL per line)</label
+            >
+            <textarea
+              id="project-extra-videos"
+              placeholder="https://www.youtube.com/watch?v=..."
+              class="w-full rounded border border-slate-300 px-3 py-2"
+            ></textarea>
+          </div>
+
+          <label
+            class="md:col-span-2 flex items-center gap-2 text-sm font-semibold"
+          >
+            <input id="project-featured" type="checkbox" />
+            Mark as featured
+          </label>
+
+          <div class="md:col-span-2">
+            <button
+              class="rounded bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-900"
+            >
+              Save Project
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section
+        class="rounded-3xl border border-slate-200 glass-panel p-5 shadow-xl md:p-8"
+      >
+        <h2 class="font-display text-2xl text-brand-900">Published Projects</h2>
+        <div id="project-list" class="mt-4 space-y-3"></div>
+      </section>
+    </main>
+
+    <script type="module" src="../assets/js/admin-dashboard.js"></script>
+  </body>
+</html>

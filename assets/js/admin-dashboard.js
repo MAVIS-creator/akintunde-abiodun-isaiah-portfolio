@@ -64,20 +64,23 @@ async function uploadManyToStorage(files, folder) {
 
 function projectListItem(project) {
   return `
-    <article class="rounded border border-slate-200 p-3 text-sm">
-      <p class="font-semibold text-brand-900">${project.title}</p>
-      <p class="text-xs text-slate-500">${project.category} | ${project.location || "No location"} | ${formatDate(project.completed_at)}</p>
-      <button data-id="${project.id}" data-type="project" class="mt-2 rounded border border-red-300 px-2 py-1 text-xs font-semibold text-red-700">Delete</button>
+    <article class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-soft">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <p class="font-semibold text-brand-900">${project.title}</p>
+        <span class="rounded-full bg-brand-50 px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-700">${project.category}</span>
+      </div>
+      <p class="mt-2 text-xs text-slate-500">${project.location || "No location"} | ${formatDate(project.completed_at)}</p>
+      <button data-id="${project.id}" data-type="project" class="mt-3 rounded border border-red-300 px-3 py-1 text-xs font-semibold text-red-700 hover:bg-red-50">Delete</button>
     </article>
   `;
 }
 
 function referenceListItem(ref) {
   return `
-    <article class="rounded border border-slate-200 p-3 text-sm">
+    <article class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-soft">
       <p class="font-semibold text-brand-900">${ref.referee_name}</p>
-      <p class="text-xs text-slate-500">${ref.referee_role} | ${formatDate(ref.issued_date)}</p>
-      <button data-id="${ref.id}" data-type="reference" class="mt-2 rounded border border-red-300 px-2 py-1 text-xs font-semibold text-red-700">Delete</button>
+      <p class="mt-2 text-xs text-slate-500">${ref.referee_role} | ${formatDate(ref.issued_date)}</p>
+      <button data-id="${ref.id}" data-type="reference" class="mt-3 rounded border border-red-300 px-3 py-1 text-xs font-semibold text-red-700 hover:bg-red-50">Delete</button>
     </article>
   `;
 }
