@@ -8,6 +8,10 @@ const referenceList = document.getElementById("reference-list");
 const statusText = document.getElementById("dashboard-status");
 const logoutBtn = document.getElementById("logout-btn");
 
+const projectImageMeta = document.getElementById("project-image-meta");
+const projectGalleryMeta = document.getElementById("project-gallery-meta");
+const refDocMeta = document.getElementById("ref-doc-meta");
+
 let supabase;
 
 function setStatus(message, isError = false) {
@@ -16,6 +20,36 @@ function setStatus(message, isError = false) {
   statusText.className = isError
     ? "text-sm text-red-600"
     : "text-sm text-emerald-600";
+}
+
+function setFileMeta(element, text) {
+  if (!element) return;
+  element.textContent = text;
+}
+
+function bindFileInputMeta(inputId, metaElement, emptyText, multi = false) {
+  const input = document.getElementById(inputId);
+  if (!input || !metaElement) return;
+
+  input.addEventListener("change", () => {
+    const files = input.files || [];
+    if (!files.length) {
+      setFileMeta(metaElement, emptyText);
+      return;
+    }
+
+    if (multi) {
+      const names = Array.from(files)
+        .slice(0, 2)
+        .map((file) => file.name)
+        .join(", ");
+      const more = files.length > 2 ? ` +${files.length - 2} more` : "";
+      setFileMeta(metaElement, `${files.length} file(s): ${names}${more}`);
+      return;
+    }
+
+    setFileMeta(metaElement, files[0].name);
+  });
 }
 
 async function requireAdminSession() {
@@ -189,6 +223,8 @@ projectForm?.addEventListener("submit", async (event) => {
     }
 
     projectForm.reset();
+    setFileMeta(projectImageMeta, "No file selected.");
+    setFileMeta(projectGalleryMeta, "No files selected.");
     setStatus("Project saved successfully.");
     await loadDashboardLists();
   } catch (error) {
@@ -219,6 +255,7 @@ referenceForm?.addEventListener("submit", async (event) => {
     if (error) throw error;
 
     referenceForm.reset();
+    setFileMeta(refDocMeta, "No file selected.");
     setStatus("Reference saved successfully.");
     await loadDashboardLists();
   } catch (error) {
@@ -259,6 +296,20 @@ logoutBtn?.addEventListener("click", async () => {
 
 (async function initDashboard() {
   try {
+    bindFileInputMeta(
+      "project-image",
+      projectImageMeta,
+      "No file selected.",
+      false,
+    );
+    bindFileInputMeta(
+      "project-gallery-images",
+      projectGalleryMeta,
+      "No files selected.",
+      true,
+    );
+    bindFileInputMeta("ref-doc", refDocMeta, "No file selected.", false);
+
     await requireAdminSession();
     await loadDashboardLists();
   } catch (error) {
